@@ -8,7 +8,7 @@ const Header = () => {
         <img src={HeaderImg} className="w-32 h-32" />
         <span>Travel AI</span>
       </h1>
-      <h1 class="text-4xl text-gray-700 sm:text-6xl">Build your itinerary</h1>
+      <h2 class="text-4xl text-gray-700 sm:text-6xl">Build your itinerary</h2>
       <div class="mt-6 text-2xl leading-8 text-gray-900 w-1/2 text-center">
         Tired of Planning Trips? Take the Stress Out of Travel with Our
         Itinerary Planner!
