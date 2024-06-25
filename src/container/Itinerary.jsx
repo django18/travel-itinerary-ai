@@ -1,104 +1,126 @@
-import React from "react";
+import React, { useState } from "react";
+import Error from "../components/Error";
+import Modal from "../components/Modal";
 
 const Itinerary = ({ itinerary }) => {
-  console.log({ itinerary });
+  const [isModalOpen, setModalIsOpen] = useState(false);
+  const [modalImg, setModalImg] = useState(false);
 
-  if (!itinerary) return;
-  // Mock data for joke and trivia
-  const joke =
-    itinerary?.joke ??
-    "Why don't scientists trust atoms? Because they make up everything!";
-  const trivia =
-    itinerary?.trivia ??
-    "Did you know? Kyoto served as Japan's capital and the emperor's residence from 794 until 1868.";
+  const onClose = () => {
+    setModalIsOpen(false);
+  };
+
+  const onImageClick = (imgUrl) => {
+    setModalImg(imgUrl);
+    setModalIsOpen(true);
+  };
+
+  if (!itinerary) <Error />;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      {itinerary.map((day, index) => (
-        <div key={index} className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Day {day.day}</h2>
+    <section className="w-full shadow-lg rounded-2xl mb-10 bg-slate-50">
+      <Modal isOpen={isModalOpen} imageUrl={modalImg} onClose={onClose} />
+      <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col mt-10">
+        <img
+          className="w-full h-64 object-cove mb-4 rounded-xl shadow-md"
+          src={itinerary.cover}
+        />
+        <h1 className="text-3xl font-bold mb-4 ">{itinerary.title}</h1>
+        <h2 className="text-2xl  mb-4">{itinerary.description}</h2>
 
-          {/* Activities */}
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Activities</h3>
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {itinerary.days.map((day, index) => (
+          <div key={index} className="flex flex-col mb-8">
+            <h2 className="text-2xl font-bold mb-4">{day.day}</h2>
+            <ol className="relative border-s border-gray-200 dark:border-gray-700">
               {day.activities.map((activity, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-lg overflow-hidden shadow-md"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    className="w-full h-40 object-cover"
-                  />
-                  <div className="p-4">
-                    <h4 className="text-xl font-semibold mb-2">
-                      {activity.name}
-                    </h4>
-                    <p className="text-gray-700">{activity.description}</p>
+                <li className="mb-10 ms-4">
+                  <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                  <div className="flex items-stretch gap-4 justify-between">
+                    <div>
+                      <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                        {activity.name}
+                      </time>
+                      <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                        {activity.description}
+                      </p>
+                    </div>
+                    {activity.image && (
+                      <a
+                        onClick={() => onImageClick(activity.image)}
+                        className=" cursor-pointer"
+                      >
+                        <img
+                          src={activity.image}
+                          className="w-36 h-36 min-w-36 object-cover rounded-lg"
+                        />
+                      </a>
+                    )}
+                    {!activity.image && <div className="w-48"></div>}
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
+        ))}
 
-          {/* Meals */}
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Meals</h3>
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="bg-white rounded-lg overflow-hidden shadow-md">
-                <img
-                  src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt={day.meals.breakfast.name}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h4 className="text-xl font-semibold mb-2">Breakfast</h4>
-                  <p className="text-gray-700">{day.meals.breakfast.name}</p>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg overflow-hidden shadow-md">
-                <img
-                  src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt={day.meals.lunch.name}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h4 className="text-xl font-semibold mb-2">Lunch</h4>
-                  <p className="text-gray-700">{day.meals.lunch.name}</p>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg overflow-hidden shadow-md">
-                <img
-                  src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt={day.meals.dinner.name}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h4 className="text-xl font-semibold mb-2">Dinner</h4>
-                  <p className="text-gray-700">{day.meals.dinner.name}</p>
-                </div>
-              </div>
-            </div>
+        {itinerary.foodRecommendations && (
+          <div className="flex flex-col mb-8">
+            <h2 className="text-2xl font-bold mb-4">Food Recommendations</h2>
+            <ol className="relative border-s border-gray-200 dark:border-gray-700">
+              {itinerary.foodRecommendations.map((food, idx) => (
+                <li className="mb-10 ms-4" key={food.name + idx}>
+                  <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                  <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                    {food.name}
+                  </time>
+                  <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                    {food.description}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
-        </div>
-      ))}
-      {/* Joke */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-2">Joke</h3>
-        <div className="bg-white rounded-lg overflow-hidden shadow-md p-4">
-          <p className="text-gray-700">{joke}</p>
-        </div>
-      </div>
+        )}
 
-      {/* Trivia */}
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Trivia</h3>
-        <div className="bg-white rounded-lg overflow-hidden shadow-md p-4">
-          <p className="text-gray-700">{trivia}</p>
-        </div>
+        {itinerary.transportation && (
+          <div className="flex flex-col mb-8">
+            <h2 className="text-2xl font-bold mb-4">Transportation</h2>
+            <ol className="relative border-s border-gray-200 dark:border-gray-700">
+              {itinerary.transportation.map((transport, idx) => (
+                <li className="mb-10 ms-4" key={transport.name + idx}>
+                  <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                  <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                    {transport.name}
+                  </time>
+                  <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                    {transport.description}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {itinerary.additionalTips && (
+          <div className="flex flex-col mb-8">
+            <h2 className="text-2xl font-bold mb-4">Additional Tips</h2>
+            <ol className="relative border-s border-gray-200 dark:border-gray-700">
+              {itinerary.additionalTips.map((tip, idx) => (
+                <li className="mb-10 ms-4" key={tip.name + idx}>
+                  <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                  <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                    {tip.name}
+                  </time>
+                  <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                    {tip.description}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 

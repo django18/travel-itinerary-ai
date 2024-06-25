@@ -1,24 +1,21 @@
-const serverUrl = import.meta.env.VITE_API_URL;
+const serverUrl = import.meta.env.VITE_SERVER_URL_PROD;
 
 export const postRequest = async (path, payload) => {
   const url = serverUrl.concat(path);
-  console.log({ payload });
   const body = JSON.stringify(payload);
-  console.log({ url, body });
-  // return new Promise((res) => {
-  //   setTimeout(() => res({ response: `Hello\nBye` }), 2000);
-  // });
   try {
-    const res = await fetch("http://localhost:3000/prompt", {
+    const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body,
     });
 
+    console.log({ res });
+
     const { response } = await res.json();
-    console.log("API response", { response });
     return response;
   } catch (error) {
+    console.error({ error });
     return { isError: true, error };
   }
 };

@@ -4,6 +4,7 @@ import classNames from "classnames";
 import Button from "./Button";
 import Search from "./Search";
 import { searchCities } from "../utils/search";
+import { TRAVEl_DAYS, TRAVEL_TYPE } from "../utils/constants";
 
 const SearchForm = ({
   onSearch,
@@ -11,12 +12,9 @@ const SearchForm = ({
   debounceDelay = 500,
   isLoading = false,
 }) => {
-  console.log("Search Form", isLoading);
-  const [cityQueryResults, setCityQueryResults] = useState(null);
-  const loaderClasses = classNames("size-6", isLoading && "animate-spin");
   const extraInfoRef = useRef(null);
   const travelDestinationRef = useRef(null);
-  const [travelDays, setTravelDays] = useState("1");
+  const [travelDays, setTravelDays] = useState("3");
   const [travelType, setTravelType] = useState("relaxation");
 
   const handleSubmit = (e) => {
@@ -35,10 +33,14 @@ const SearchForm = ({
     }
   };
 
+  const searchPlace = () => {
+    const result = searchCities();
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-6 p-6 flex self-center flex-col gap-6 items-center justify-center w-2/3"
+      className="mt-6 p-6 flex self-center flex-col gap-6 items-center justify-center w-full shadow-sm rounded-lg  text-slate-800"
     >
       <div className="flex flex-col gap-6 justify-stretch w-full flex-wrap md:flex-row">
         <div className="flex flex-col flex-1">
@@ -47,7 +49,6 @@ const SearchForm = ({
             debounceEnabled
             label="Destination"
             onSearch={searchCities}
-            searchResults={cityQueryResults}
           />
         </div>
         <div className="flex flex-col flex-1">
@@ -60,16 +61,11 @@ const SearchForm = ({
             onChange={(e) => setTravelDays(e.target.value)}
             value={travelDays}
           >
-            <option value="1">1 day</option>
-            <option value="2">2 days</option>
-            <option value="3">3 days</option>
-            <option value="4">4 days</option>
-            <option value="5">5 days</option>
-            <option value="6">6 days</option>
-            <option value="7">7 days</option>
-            <option value="8">8 days</option>
-            <option value="9">9 days</option>
-            <option value="10">10 days</option>
+            {TRAVEl_DAYS.map((day) => (
+              <option key={day.text} value={day.value}>
+                {day.text}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex flex-col flex-1">
@@ -82,11 +78,11 @@ const SearchForm = ({
             onChange={(e) => setTravelType(e.target.value)}
             value={travelType}
           >
-            <option value="relaxation">Relaxation</option>
-            <option value="cultural">Cultural & Historical</option>
-            <option value="romantic">Romantic</option>
-            <option value="family">Family</option>
-            <option value="adventure">Adventure</option>
+            {TRAVEL_TYPE.map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.text}
+              </option>
+            ))}
           </select>
         </div>
       </div>

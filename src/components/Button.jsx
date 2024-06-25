@@ -8,15 +8,14 @@ const Button = ({
   type = "button",
   isLoading,
 }) => {
-  console.log("Button", isLoading);
   const buttonClasses = classNames(
     "p-2.5 ms-2 text-md rounded-sm focus:outline-none min-w-48",
     [variant === "primary" && "text-white bg-gray-700 hover:bg-gray-600"]
   );
   return (
-    <button type={type} className={buttonClasses}>
+    <button type={type} className={buttonClasses} disabled={isLoading}>
       {isLoading && (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center ease-in-out">
           <svg
             className="animate-spin h-8 w-8 mr-2 inline-block"
             xmlns="http://www.w3.org/2000/svg"

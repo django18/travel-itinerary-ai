@@ -9,7 +9,7 @@ const Card = ({
   cardImgAlt,
 }) => {
   return (
-    <div className=" max-w-xs bg-white border border-gray-500 rounded-lg shadow-lg cursor-pointer">
+    <div className=" bg-white rounded-lg shadow-lg cursor-pointer">
       <div href={cardLink} className="h-48 overflow-hidden">
         <img
           className="rounded-t-lg object-cover h-full w-full"

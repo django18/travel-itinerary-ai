@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, forwardRef } from "react";
+import React, { useState, useCallback, forwardRef } from "react";
 import debounce from "lodash/debounce";
+import { uniqueId } from "lodash";
 
 const SearchInput = forwardRef(
   (
@@ -19,7 +20,6 @@ const SearchInput = forwardRef(
 
     const debouncedSearch = useCallback(
       debounce((value) => {
-        console.log("debouncedSearch", value);
         if (debounceEnabled && value.length > 0) {
           const result = onSearch(value);
           setSearchResults(result);
@@ -40,12 +40,12 @@ const SearchInput = forwardRef(
     };
 
     const selectSearchResult = (item) => {
-      setQuery(`${item.city}, ${item.country}`); // Update input value with selected item
+      setQuery(`${item.name}, ${item.country}`); // Update input value with selected item
       setSearchResults(null); // Hide search results container
     };
 
     return (
-      <div class="flex flex-col w-full z-100">
+      <div className="flex flex-col w-full z-100">
         {label && (
           <label htmlFor="travel-destination" className="text-sm font-medium">
             {label}
@@ -56,7 +56,7 @@ const SearchInput = forwardRef(
           <input
             type="text"
             name="prompt"
-            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+            className="mt-1 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
             placeholder={placeholder}
             required
             value={query}
@@ -65,12 +65,12 @@ const SearchInput = forwardRef(
           />
           <button
             type="button"
-            class="absolute inset-y-0 right-0 flex items-center justify-center w-10 h-full  text-gray-300 hover:text-gray-700 focus:outline-none"
+            className="absolute inset-y-0 right-0 flex items-center justify-center w-10 h-full  text-gray-300 hover:text-gray-700 focus:outline-none"
             aria-label="Clear"
             onClick={clearResponse}
           >
             <svg
-              class="w-5 h-5"
+              className="w-5 h-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -87,11 +87,11 @@ const SearchInput = forwardRef(
             <div className="absolute mt-0.5 top-full left-0 w-full shadow-lg z-50 bg-gray-100 rounded-md">
               {searchResults.map((item) => (
                 <p
-                  key={item.city}
+                  key={uniqueId(item.name + item.country)}
                   className="p-2 cursor-pointer hover:bg-gray-600 hover:text-gray-50"
                   onClick={() => selectSearchResult(item)}
                 >
-                  {item.city}
+                  {item.name},{item.country}
                 </p>
               ))}
             </div>
