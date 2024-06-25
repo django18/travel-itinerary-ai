@@ -10,11 +10,12 @@ const Card = ({
 }) => {
   return (
     <div className=" bg-white rounded-lg shadow-lg cursor-pointer">
-      <div href={cardLink} className="h-48 overflow-hidden">
+      <div href={cardLink} className="h-48 w-full overflow-hidden">
         <img
           className="rounded-t-lg object-cover h-full w-full"
           src={cardImg}
           alt={cardImgAlt}
+          width="20rem"
         />
       </div>
       <div className="px-6 py-4">
