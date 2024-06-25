@@ -1,5 +1,7 @@
 const serverUrl = import.meta.env.VITE_SERVER_URL_PROD;
 
+console.log({ serverUrl });
+
 export const postRequest = async (path, payload) => {
   const url = serverUrl.concat(path);
   const body = JSON.stringify(payload);
