@@ -1,20 +1,14 @@
 const serverUrl = import.meta.env.VITE_SERVER_URL_PROD;
 
-console.log({ serverUrl });
-
 export const postRequest = async (path, payload) => {
   const url = serverUrl.concat(path);
   const body = JSON.stringify(payload);
-  console.log({ url });
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body,
     });
-
-    console.log({ res });
-
     const { response } = await res.json();
     return response;
   } catch (error) {
