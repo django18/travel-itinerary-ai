@@ -26,17 +26,10 @@ const Hero = () => {
     setGeminiResponse(null);
     setIsLoading(true);
     try {
-      // const response = await postRequest("prompt", {
-      //   travelDays,
-      //   travelType,
-      //   extraDetails,
-      //   travelDestination,
-      // });
-
       const response = await axios.post(serverUrl + "prompt", {
         params: { travelDays, travelType, extraDetails, travelDestination },
       });
-      const { _id } = response;
+      const { _id } = response.data;
       if (_id) startPolling(_id);
       else setGeminiResponse({ isError: true });
     } catch (error) {
