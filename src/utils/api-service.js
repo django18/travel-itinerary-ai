@@ -9,7 +9,7 @@ export const postRequest = async (path, payload) => {
       headers: { "Content-Type": "application/json" },
       body,
     });
-    const { response } = await res.json();
+    const response = await res.json();
     return response;
   } catch (error) {
     console.error({ error });
