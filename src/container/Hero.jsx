@@ -5,6 +5,7 @@ import SearchForm from "../components/SearchForm";
 import RecentItineraries from "./RecentItineraries";
 import Itinerary from "./Itinerary";
 import usePolling from "../hooks/usePolling";
+import axios from "axios";
 
 const serverUrl = import.meta.env.VITE_SERVER_URL_PROD;
 
@@ -25,11 +26,15 @@ const Hero = () => {
     setGeminiResponse(null);
     setIsLoading(true);
     try {
-      const response = await postRequest("prompt", {
-        travelDays,
-        travelType,
-        extraDetails,
-        travelDestination,
+      // const response = await postRequest("prompt", {
+      //   travelDays,
+      //   travelType,
+      //   extraDetails,
+      //   travelDestination,
+      // });
+
+      const response = await axios.post(serverUrl + "prompt", {
+        params: { travelDays, travelType, extraDetails, travelDestination },
       });
       const { _id } = response;
       if (_id) startPolling(_id);
