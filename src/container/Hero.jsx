@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
-import { postRequest } from "../utils/api-service";
 import SearchForm from "../components/SearchForm";
 import RecentItineraries from "./RecentItineraries";
 import Itinerary from "./Itinerary";
