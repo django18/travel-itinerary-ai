@@ -32,9 +32,11 @@ const Hero = () => {
         travelDestination,
       });
       const { _id } = response;
-      startPolling(_id);
+      if (_id) startPolling(_id);
+      else setGeminiResponse({ isError: true });
     } catch (error) {
       console.log({ error });
+      setGeminiResponse({ isError: true });
     } finally {
       setIsLoading(false);
     }
